@@ -1,0 +1,9 @@
+include README.md
+include LICENSE
+include MANIFEST.in
+
+recursive-include soft_drf/templates *
+recursive-include soft_drf/static *
+
+global-exclude __pycache__
+global-exclude *.py[co]
