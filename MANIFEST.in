@@ -5,6 +5,9 @@ include MANIFEST.in
 recursive-include soft_drf/templates *
 recursive-include soft_drf/static *
 
+graft soft_drf/static
+graft soft_drf/templates
+
 global-exclude __pycache__
 global-exclude *.py[co]
 global-exclude *.swp
