@@ -15,7 +15,7 @@ setup(
     author_email='angel.david.lagunas@gmail.com',
     url='https://github.com/angellagunas/soft_drf',
     download_url=(
-        'https://github.com/angellagunas/soft_drf/archive/0.3.3.tar.gz'
+        'https://github.com/angellagunas/soft_drf/archive/0.3.4.tar.gz'
     ),
     install_requires=[
         'Django==1.11.4',

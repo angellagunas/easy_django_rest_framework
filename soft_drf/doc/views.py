@@ -8,7 +8,7 @@ from soft_drf.routing.v1.routers import router
 
 class DRFDocsView(TemplateView):
 
-    template_name = "soft_drf/templates/api_documentation.html"
+    template_name = "api_documentation.html"
     drf_router = router
 
     def get_context_data(self, **kwargs):
