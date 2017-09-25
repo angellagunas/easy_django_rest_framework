@@ -8,13 +8,14 @@ setup(
     name='soft_drf',
     version=__version__,
     description=(
-        'Mixins and templates to do scaffolding with Django Rest Framework project.'
+        'Mixins and templates to do scaffolding with '
+        'Django Rest Framework project.'
     ),
     author=__author__,
     author_email='angel.david.lagunas@gmail.com',
     url='https://github.com/angellagunas/soft_drf',
     download_url=(
-        'https://github.com/angellagunas/soft_drf/archive/0.1.0.tar.gz'
+        'https://github.com/angellagunas/soft_drf/archive/0.3.0.tar.gz'
     ),
     install_requires=[
         'Django==1.11.4',
