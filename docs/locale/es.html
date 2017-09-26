@@ -34,11 +34,12 @@
                         <h2 id="get-started">Instalación</h2>
                         <ol>
                             <li>
-                                <p><code class="highlighter-rouge">pip install soft_drf</code></p>
+                                <p>Ejecuta: <code class="highlighter-rouge">pip install soft_drf</code></p>
                             </li>
                             <li>
                                 <p>
-                                    En tus INSTALLED_APPS agrega:
+                                    Agrega <code class="highlighter-rouge">'soft_drf'</code> en tus aplicaciones de Django:
+                                    <br>
                                     <br>
                                     <code class="highlighter-rouge">
                                     INSTALLED_APPS = [<br>
@@ -53,14 +54,173 @@
                     <hr>
                     <div id="usage">
                         <h2 id="make-it-yours">Uso</h2>
-                        <ol>
-                            <li>
-                                <p>Edit <code class="highlighter-rouge">settings.py</code>, and then run your project.</p>
-                            </li>
-                            <li>
-                                <p>Open your browser in <code class="highlighter-rouge">http://localhost:8000/api/v1</code></p>
-                            </li>
-                        </ol>
+                        <h3>Antes de comenzar...</h3>
+                        <p>
+                            La estructura que usaremos para explicar la funcionalidad de <code class="highlighter-rouge">soft_drf</code> es 
+                            la siguiente:
+                            <br>
+                            <br>
+                            <img src="../imgs/project_structure.png" alt="estructura del proyecto">
+                            <br>
+                            <br>
+                            <ul>
+                                <li>
+                                    Las aplicaciones que vayamos creando las colocaremos dentro de la carpeta <code class="highlighter-rouge">app</code>,
+                                    en este caso son <code class="highlighter-rouge">polls</code> y <code class="highlighter-rouge">questions</code>.
+                                </li>
+                                <li>
+                                    Los archivos dentro de cada aplicación son los que normalmente usamos, a excepción del archivo
+                                    <code class="highlighter-rouge">api.py</code> en el cual colocaremos todos los viewsets que queramos
+                                    que sean auto-agregados en las urls del proyecto.
+                                </li>
+                            </ul>
+                            <br>
+                        </p>
+                        <h3>Configuraciones</h3>
+                        <p>
+                            En nuestro archivo settings tenemos que agregar las siguientes configuraciones:
+                            <code class="highlighter-rouge">
+                                <br>
+                                <br>
+                                SHOW_DOCUMENTATION = True<br>
+                                TITLE_DOCUMENTATION = "TESLA DEMO"
+                            </code> 
+                            <br>
+                            <p>
+                                La variable <code class="highlighter-rouge">SHOW_DOCUMENTATION</code> define si la documentación
+                                que se genera automáticamente debe ser mostrar o no en la url <code class="highlighter-rouge">/api/v1/docs</code>
+                            </p>
+                            <p>
+                                Por otro lado, <code class="highlighter-rouge">TITLE_DOCUMENTATION</code> es usada para mostrar el titulo
+                                de tu proyecto en la documentación de la API. Si no defines esta variable el valor por defecto será "TITLE PROJECT BASE".
+                            </p>
+                        </p>
+                        <h3>Definiendo los serializers</h3>
+                        <p>
+                            Lo primero que debemos definir en nuestro proyecto para crear un API son los serializers. En el caso de los métodos GET 
+                            se determina la información que el API va a retornar cuando sean llamados, en los metodos PATCH o POST
+                            se determina la información que nuestra API va a solicitar.
+                            <br>
+                            <br>
+                            <script src="https://gist.github.com/angellagunas/922580f823c7400ec2889bf161950cf1.js"></script>
+                            <br>
+                            <br>
+                            <p>Vamos a entender el código anterior...</p>
+                            <ul>
+                                <li>
+                                    En la linea 1: importamos nuesto modelo Poll. Los modelos se definen tal cual lo harias en un proyecto de Django normal.
+                                </li>
+                                <li>
+                                    En la linea 3: bien, en esta linea comenzamos a importar ModelSerializer de soft_drf, la cual, tiene definida un serie de
+                                    instrucciones para que tú no tengas que preocuparte por definir campos en el serializer, dichos campos son obtenidos de tu modelo,
+                                    los nombres, constrains, etc.
+                                </li>
+                                <li>
+                                    En la linea 6: definimos el nombre de nuesto serializer y le decimos a Django que va a heredar de ModelSerializer.
+                                </li>
+                                <li>
+                                    A partir de la linea 7: le decimos a nuestra clase que va a tomar el modelo Poll y los campos (fields) que va a tomar de dicho
+                                     modelo son todos. Tambien podemos definir campos especificos de nuestro modelo de la sigiente manera:
+                                     <script src="https://gist.github.com/angellagunas/ffeb307fa260ec5e2dbde1d8fbf905e7.js"></script>
+                                </li>
+                                <li>
+                                    Ademas, puedes sobre-escribir todos los métodos que proporciona django rest framework como validate, fiel_validate, save, etc.
+                                </li>
+                            </ul>
+                        </p>
+                        <h3>Crear viewsets de una manera sencilla</h3>
+                        <p>
+                        Nuestro archivo <code class="highlighter-rouge">api.py</code> esta conformado por dos partes importantes, la primera es la definición de las viewsets 
+                        las cuales extienden de una o varias clases de acuerdo a los metodos HTTP que se desean agregar a la API. La segunda parte,
+                        es agregar nuestras viewsets a el router de <code class="highlighter-rouge">soft_drf</code>.
+                        </p>
+                        <script src="https://gist.github.com/angellagunas/0e723ddf2e3d8e5e71acc9d62ebb7fe8.js"></script>
+                        <p>
+                            Con estas pocas lineas de código logramos crear un API que acepta los métodos HTTP POST,GET, PATCH, y DELETE, pero, 
+                            analizemos lo que escribimos...
+                            <ul>
+                                <li>
+                                    linea 1,2: importamos nuestro modelo Poll y nuestros serializers que definimos en la sección anterior.
+                                </li>
+                                <li>
+                                    linea 4-6: importamos el core de <code class="highlighter-rouge">soft_drf</code>:
+                                    <ul>
+                                        <li>
+                                            mixins: son las clases base las cuales tienen definido un método http de acuerdo al nombre que tiene cada clase.
+                                             Por ejemplo, ListModelMixin contiene solo el método HTTP GET, CreateModelMixin el método HTTP POST, etc.
+                                        </li>
+                                        <li>
+                                            GenericViewSet: esta clase es la base para todas las clases que se encuentran dentro de mixins, así que, es 
+                                            obligarotio que todas nuestas viewset hereden de ella.
+                                        </li>
+                                        <li>
+                                            router: el router que importamos es el encargado de reunir todas las API's dentro de nuestro proyecto
+                                            y del cual se obtendrán automáticamente las urls.
+                                        </li>
+                                    </ul> 
+                                </li>
+                                <li>
+                                    linea 9-16: Definimos nuestra viewset. En este caso nuestra clase hereda de GenericViewSet, la cual es obligarotio
+                                    que herede para poder hacer uso de las otras clases. Cada una de las clases que estan dentro de mixins definen un método
+                                    HTTP especifico, en este caso queremos tener GET, POST, PATCH y DELETE.
+                                </li>
+                                <li>
+                                    linea 17-21: si deseamos usar un serializer para cada método HTTP podemos pasarlo en metodo_serializer_class, donde metodo puede ser
+                                    list, retrieve, create o update, de esta manera podemos hacer validaciones más especificas en cada serializer sin
+                                    tener que escibir todo en un mismo serializer. Si deseamos usar solo un serializer basta con definir la variable serializer_class, el cual
+                                    es obligatorio definir.
+                                </li>
+                                <li>
+                                    linea 23: podemos definir los permisos como se hace en un proyecto normal de django rest framework.
+                                </li>
+                                <li>
+                                    linea 25-27: aquí se define nuestro queryset, normalmente lo que cambia entre metodos es el queryset, así que podemos sobre-escribir 
+                                    este método y filtrar con base en el request o cualquier otra cosa.
+                                </li>
+                                <li>
+                                    linea 30-34: registramos nuestra API:
+                                    <ul>
+                                        <li>
+                                            linea 31: se escribe el nombre que queremos en la url: api/v1/polls
+                                        </li>
+                                        <li>
+                                            linea 32: le decimos que viewset sera encargado de tratar esa url.
+                                        </li>
+                                        <li>
+                                            linea 33: definimos el base_name de nuestra API, el cual es un nombre único con el cual
+                                            podremos identificar las API's más adelante.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </p>
+                        <h3>Agregando las urls del API</h3>
+                        <p>
+                            En nuestro archivo principal de urls tenemos que agregar las urls que se registraron en nuestro router. Solo debemos 
+                            agregar lo siguiente:
+                            <script src="https://gist.github.com/angellagunas/75020d242f8090edb8e47654efa7bf7f.js"></script>
+                        </p>
+                        <h3>Probando nuestra API</h3>
+                        <p>
+                            <ul>
+                                <li>
+                                    Corremos nuestro proyecto con gunicorn, uwsgi o simplemente con:<br>
+                                    <code class="highlighter-rouge">python manage.py runserver</code>
+                                </li>
+                                <li>
+                                    Abrimos <code class="highlighter-rouge">http://localhost:8000/api/v1/</code> y podremos
+                                    ver las apis que se registraron.
+                                    <br>
+                                    <img src="../imgs/urls.png" alt="estructura del proyecto">
+                                    <br>
+                                    <br>
+                                    Si vamos a <code class="highlighter-rouge">http://localhost:8000/api/docs</code> podremos
+                                    ver la documentación que se genero con base en nuestras API's.
+                                    <br>
+                                    <img src="../imgs/docs.png" alt="estructura del proyecto">
+                                </li>
+                            </ul>
+                        </p>
                     </div>
                     <hr>
                     <p><a href="https://github.com/angellagunas/soft_drf" class="pa3 tc ba br2 db">Ver en GitHub ♥</a></p>
