@@ -11,3 +11,7 @@ Mixins and templates to do scaffolding with Django Rest Framework project.
 * Python (3.5, 3.6)
 * Django (1.10, 1.11)
 * Django REST Framework (3.5, 3.6)
+
+
+## Documentation
+[Full documentation](https://angellagunas.github.io/soft_drf/)
