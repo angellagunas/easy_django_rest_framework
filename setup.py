@@ -20,7 +20,7 @@ setup(
         )
     ),
     install_requires=[
-        'Django==1.11.4',
+        'Django==1.11.29',
         'django-cors-headers==2.1.0',
         'djangorestframework==3.6.4',
         'djangorestframework-camel-case==0.2.0',
