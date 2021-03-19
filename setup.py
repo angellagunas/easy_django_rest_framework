@@ -22,7 +22,7 @@ setup(
     install_requires=[
         'Django==1.11.4',
         'django-cors-headers==2.1.0',
-        'djangorestframework==3.6.4',
+        'djangorestframework==3.11.2',
         'djangorestframework-camel-case==0.2.0',
         'djangorestframework-jwt==1.11.0',
         'drf-nested-routers==0.90.0'
