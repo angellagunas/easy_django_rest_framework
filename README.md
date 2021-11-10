@@ -14,4 +14,4 @@ Mixins and templates to do scaffolding with Django Rest Framework project.
 
 
 ## Documentation
-[Full documentation](https://angellagunas.github.io/soft_drf/)
+[Full documentation](https://devricks.github.io/soft_drf/index.html)
